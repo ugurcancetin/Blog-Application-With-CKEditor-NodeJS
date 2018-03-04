@@ -1,0 +1,67 @@
+<% include ./partials/header %>
+<style>
+  body{
+    background-color: lightgrey;
+  }
+</style>
+<script>
+  $(document).ready(function(){
+    $("#myButton").click(function(){
+      //  alert("Testing");
+      var blogTitle = $("#bTitle").val();
+      var blogSubTitle = $("#bSubtitle").val();
+      var comImage = $("#bImage").val();
+      var blog = CKEDITOR.instances.myEditor.getData();
+
+      var data = {
+        blogTitle:blogTitle,
+        blogSubTitle:blogSubTitle,
+        comImage:comImage,
+        blog:blog
+      }
+
+      // console.log(blogTitle + " --- " + blogSubTitle + " --- " + comImage + " --- " + blog);
+
+      $.post('addnewblog', {data:data})
+      .then(function(addedBlog){
+        console.log(addedBlog);
+        $("#bTitle").val("");
+        $("#bSubtitle").val("");
+        $("#bImage").val();
+        CKEDITOR.instances.myEditor.setData("YOUR PREVIOUS BLOG HAS BEEN SAVED... <hr> ADD NEW BLOG...");
+      })
+
+    });
+  });
+</script>
+
+
+
+<div class="container">
+    <form style="margin-top:100px">
+        <h1 style="text-align:center;">Add New Blog</h1>
+        <div class="form-group">
+          <label for="bTitle">Blog Title</label>
+          <input type="text" class="form-control" id="bTitle" placeholder="Blog Title">
+        </div>
+        <div class="form-group">
+          <label for="bSubtitle">Blog  Subtitle</label>
+          <input type="text" class="form-control" id="bSubtitle" placeholder="Blog  Subtitle">
+        </div>
+        <div class="form-group">
+          <label for="bImage">Blog Commercial Image URL</label>
+          <input type="text" class="form-control" id="bImage" placeholder="Blog Commercial Image URL">
+        </div>
+        <textarea name="editor1" id="myEditor"></textarea>
+        
+    </form>
+    <button id="myButton" style="margin-top:20px;" type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+
+<script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+<script>
+  CKEDITOR.replace( 'editor1' );
+</script>
+
+<% include ./partials/footer %>

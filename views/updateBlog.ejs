@@ -1,0 +1,72 @@
+<% include ./partials/header %>
+<style>
+  body{
+    background-color: lightgrey;
+  }
+</style>
+<script>
+  $(document).ready(function(){
+      
+      var blog = $("#tricky").val();
+      CKEDITOR.instances.myEditor.setData(blog);
+
+
+    $("#myButton").click(function(){
+        var title = $("#bTitle").val();
+        var subTitle = $("#bSubtitle").val();
+        var comImage = $("#bImage").val();
+        var blog = CKEDITOR.instances.myEditor.getData();
+
+      var data = {
+        title:title,
+        subTitle:subTitle,
+        comImage:comImage,
+        blog:blog
+      }
+
+      console.log(data);
+
+      $.ajax({
+          url:'/blogs/<%=foundBlog._id%>',
+          type:'PUT',
+          data:data
+      });
+
+      window.location="/";
+
+    });
+  });
+</script>
+
+
+
+<div class="container">
+    <form style="margin-top:100px">
+        <h1 style="text-align:center;">Add New Blog</h1>
+        <div class="form-group">
+          <label for="bTitle">Blog Title</label>
+          <input type="text" class="form-control" id="bTitle" placeholder="Blog Title" value="<%=foundBlog.title%>">
+        </div>
+        <div class="form-group">
+          <label for="bSubtitle">Blog  Subtitle</label>
+          <input type="text" class="form-control" id="bSubtitle" placeholder="Blog  Subtitle"  value="<%=foundBlog.subTitle%>">
+        </div>
+        <div class="form-group">
+          <label for="bImage">Blog Commercial Image URL</label>
+          <input type="text" class="form-control" id="bImage" placeholder="Blog Commercial Image URL"  value="<%=foundBlog.comImage%>">
+          <h5>Image</h5>
+          <img src="<%=foundBlog.comImage%>" alt="" width="500" height="300">
+        </div>
+        <textarea name="editor1" id="myEditor" value="<%=foundBlog.blog%>"></textarea>
+        <textarea style="display: none" name="" id="tricky" cols="30" rows="10"><%=foundBlog.blog%></textarea>
+    </form>
+    <button id="myButton" style="margin-top:20px;" type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+
+<script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+<script>
+  CKEDITOR.replace( 'editor1' );
+</script>
+
+<% include ./partials/footer %>

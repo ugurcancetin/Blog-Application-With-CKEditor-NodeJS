@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Clean Blog - Start Bootstrap Theme</title>
+    <!-- Bootstrap 4 CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" 
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- Custom styles for this template -->
+    <link href="css/main.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="/">My Blog App</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact">Contact</a>
+            </li>
+            <%if(!currentUser){%>
+              <li class="nav-item">
+                <a class="nav-link" href="/signin">Sign In</a>
+              </li>
+            <% } else {%>
+              <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign Up</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/signout">Sign Out</a>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/addnewblog">Add New Blog</a>
+              </li>
+            <%  } %>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1499615767948-e6a89ef6060f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ff7e0816b73331eb0f205ac167b2094f&auto=format&fit=crop&w=1350&q=80')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>My Blog App</h1>
+              <span class="subheading">Join My Journey, Share The Joy With Me!!!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <% posts.forEach(function(post){ %>
+      <div class="row">
+        <div class="col-lg-3 mx-auto">
+          <img class="img-thumbnail" src="<%= post.comImage %>" alt="<%=post.title%>">
+        </div>
+        <div class="col-lg-8 mx-auto">
+          <div class="post-preview">
+            <a href="/blogs/<%=post._id%>">
+              <h2 class="post-title">
+               <%= post.title %>
+              </h2>
+              <h3 class="post-subtitle">
+                <%= post.subTitle %>
+              </h3>
+            </a>
+            <p class="post-meta">Posted by
+              <a href="#">Ugurcan Cetin</a>
+              <%= post.date %></p>
+          </div>
+          <hr>
+        </div>
+        <%if(currentUser){%>
+        <div class="col-lg-1 mx-auto">
+          <a style="margin-top:20px;" href="/blogs/<%=post._id%>/edit" class="btn btn-outline-warning">Edit</a>
+          <form action="/blogs/<%=post._id%>?_method=DELETE" method="POST" >
+            <button style="margin-top:20px;" class="btn btn-outline-danger">Delete</button>
+          </form>
+        </div>
+        <%  } %>
+      </div>
+      <% }) %>
+       <!-- Pager -->
+       <div class="clearfix">
+        <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+      </div>
+    </div>
+
+    <hr>
+
+    <% include ./partials/footer %>
