@@ -50,7 +50,7 @@ app.use(siteRoutes);
 app.use(blogRoutes);
 app.use(adminRoutes);
 
-
+//deneme yapiyoruz...
 
 var server = app.listen(3000, function(err){
     if(err){
